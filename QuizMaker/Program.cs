@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
-
-
 
 namespace QuizMaker
 {
@@ -11,43 +7,68 @@ namespace QuizMaker
     {
         public static void Main(string[] args)
         {
-            int counter = 0;
             string filePath = "quiz.xml";
-            DataSerializer dataSerializer = new DataSerializer();
-            Quiz quiz = new Quiz();
+            DataSerializer<Quiz> dataSerializer = new DataSerializer<Quiz>();
+            List<Answer> answers = new List<Answer>();
+            Quiz questionAndAnswers = new Quiz();
+            string question = "";
 
-            while (counter < 2)
+            for (int x = 0; x < 1; x++)
             {
                 Console.WriteLine($"Enter your questions:...{Environment.NewLine}");
 
-                quiz.Questions.Add(Console.ReadLine());
-
-                Console.WriteLine($"Enter the answers to the questions:... Mark the correct answer with a (e.g. # answer){Environment.NewLine} ");
+                question = Console.ReadLine();
 
                 for (int a = 0; a < 3; a++)
                 {
-                    quiz.Answers.Add(Console.ReadLine());
-                }
+                    Console.WriteLine($"Enter the answers to the questions:{Environment.NewLine}");
 
-                counter++;
+                    string answer = Console.ReadLine();
+
+                    Console.WriteLine($"Is this the correct answer?{Environment.NewLine}");
+
+                    if (Console.ReadLine().ToLower().Equals("yes"))
+                    {
+                        answers.Add(new Answer(answer, true));
+                    }
+                    else
+                    {
+                        answers.Add(new Answer(answer, false));
+                    }
+                }
+                questionAndAnswers = new Quiz(question, answers);
             }
+
+            dataSerializer.XmlSerialize(questionAndAnswers, filePath);
 
             Console.Clear();
 
-            dataSerializer.XmlSerialize(typeof(Quiz), quiz, filePath);
-
             Console.Write(Environment.NewLine);
 
-            quiz = dataSerializer.XmlDeserialize(typeof(Quiz), filePath) as Quiz;
+            questionAndAnswers = dataSerializer.XmlDeserialize(filePath);
 
-            for (int q = 0; q < quiz.Questions.Count; q++)
+
+            Console.WriteLine($"Enter the correct answer to the questions:{Environment.NewLine}" +
+                $"{questionAndAnswers.Question} {Environment.NewLine}");
+
+            for (int x = 0; x < questionAndAnswers.Answers.Count; x++)
             {
-                Console.WriteLine($"Q: {quiz.Questions[q]}");
+                Console.WriteLine($"Try again... {Environment.NewLine}");
 
-                for (int a = 0; a < quiz.Answers.Count; a++)
+                string answer = Console.ReadLine();
+
+                foreach (var item in questionAndAnswers.Answers)
                 {
-                    Console.WriteLine($" A{a}: {quiz.Answers[a]}");
+                    if (item.QuizAnswer.Equals(answer) && item.IsCorrectanswer.Equals(true))
+                    {
+                        Console.WriteLine($"You have entered the correct answer: [ {item.QuizAnswer} ]");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"[ {item.QuizAnswer} ] is a wrrong answer");
+                    }
                 }
+
             }
         }
     }
