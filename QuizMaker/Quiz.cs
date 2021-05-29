@@ -6,28 +6,54 @@ namespace QuizMaker
     [Serializable]
     public class Quiz
     {
-        private List<string> _questions = new List<string>();
+        private string _question;
+        private List<Answer> _answers;
 
-        public List<string> Questions
+        public Quiz() { }
+
+        public Quiz(string question, List<Answer> answers)
         {
-            get => _questions;
-            set
-            {
-                if (value != null)
-                    _questions = value;
-            }
+            _question = question;
+            _answers = answers;
         }
 
-        private List<string> _answers = new List<string>();
-
-        public List<string> Answers
+        public string Question
         {
-            get => _answers;
-            set
-            {
-                if (value != null)
-                    _answers = value;
-            }
+            get { return _question; }
+            set { _question = value; }
+        }
+
+        public List<Answer> Answers
+        {
+            get { return _answers; }
+            set { _answers = value; }
+        }
+    }
+
+    [Serializable]
+    public class Answer
+    {
+        private string _answer;
+        private bool _isCorrectanswer;
+
+        public Answer() { }
+
+        public Answer(string answer, bool isCorrectanswer)
+        {
+            QuizAnswer = answer;
+            _isCorrectanswer = isCorrectanswer;
+        }
+
+        public string QuizAnswer
+        {
+            get { return _answer; }
+            set { _answer = value; }
+        }
+
+        public bool IsCorrectanswer
+        {
+            get { return _isCorrectanswer; }
+            set { _isCorrectanswer = value; }
         }
     }
 }
