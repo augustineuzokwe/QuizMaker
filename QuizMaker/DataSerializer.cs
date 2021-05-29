@@ -4,13 +4,15 @@ using System.Xml.Serialization;
 
 namespace QuizMaker
 {
-    public class DataSerializer
+    public class DataSerializer<T>
     {
-        public void XmlSerialize(Type dataType, object data, string filePath)
+        public void XmlSerialize(T data, string filePath)
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(dataType);
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
             if (File.Exists(filePath))
+            {
                 File.Delete(filePath);
+            }
 
             using (StreamWriter streamWriter = new StreamWriter(filePath, true))
             {
@@ -19,18 +21,19 @@ namespace QuizMaker
             }
         }
 
-        public object XmlDeserialize(Type dataType, string filePath)
+        public T XmlDeserialize(string filePath)
         {
             object obj = null;
 
-            XmlSerializer xmlSerializer = new XmlSerializer(dataType);
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
             if (File.Exists(filePath))
             {
                 TextReader textReader = new StreamReader(filePath);
                 obj = xmlSerializer.Deserialize(textReader);
                 textReader.Close();
             }
-            return obj;
+            return (T)obj;
         }
+        
     }
 }
