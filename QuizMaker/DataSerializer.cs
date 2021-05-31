@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 
 namespace QuizMaker
 {
-    public class DataSerializer<T>
+    public class DataSerializer<T> : List<T>
     {
         public void XmlSerialize(T data, string filePath)
         {
@@ -34,6 +35,5 @@ namespace QuizMaker
             }
             return (T)obj;
         }
-        
     }
 }
