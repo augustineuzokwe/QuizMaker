@@ -5,71 +5,46 @@ namespace QuizMaker
 {
     class MainClass
     {
+        public static int gameTrialCount { get; private set; }
+
         public static void Main(string[] args)
         {
             string filePath = "quiz.xml";
-            DataSerializer<Quiz> dataSerializer = new DataSerializer<Quiz>();
-            List<Answer> answers = new List<Answer>();
-            Quiz questionAndAnswers = new Quiz();
-            string question = "";
+            int gameCardsInPlay = 3;
+            DataSerializer<List<Quiz>> dataSerializer = new DataSerializer<List<Quiz>>();
+            List<Quiz> quizCards = new List<Quiz>();
+            int answeredQuestionCount = 0;
 
-            for (int x = 0; x < 1; x++)
+            // create 3 game cards
+            for (int x = 0; x < gameCardsInPlay; x++)
             {
-                Console.WriteLine($"Enter your questions:...{Environment.NewLine}");
-
-                question = Console.ReadLine();
-
-                for (int a = 0; a < 3; a++)
-                {
-                    Console.WriteLine($"Enter the answers to the questions:{Environment.NewLine}");
-
-                    string answer = Console.ReadLine();
-
-                    Console.WriteLine($"Is this the correct answer?{Environment.NewLine}");
-
-                    if (Console.ReadLine().ToLower().Equals("yes"))
-                    {
-                        answers.Add(new Answer(answer, true));
-                    }
-                    else
-                    {
-                        answers.Add(new Answer(answer, false));
-                    }
-                }
-                questionAndAnswers = new Quiz(question, answers);
+                quizCards.Add(GameCore.CreateGameCards());
             }
 
-            dataSerializer.XmlSerialize(questionAndAnswers, filePath);
+            //Store in serialized xml file
+            dataSerializer.XmlSerialize(quizCards, filePath);
 
             Console.Clear();
 
-            Console.Write(Environment.NewLine);
+            // load game cards
+            List<Quiz> questionAndAnswers = dataSerializer.XmlDeserialize(filePath);
 
-            questionAndAnswers = dataSerializer.XmlDeserialize(filePath);
-
-
-            Console.WriteLine($"Enter the correct answer to the questions:{Environment.NewLine}" +
-                $"{questionAndAnswers.Question} {Environment.NewLine}");
-
-            for (int x = 0; x < questionAndAnswers.Answers.Count; x++)
+            //Play game
+            foreach (var gameCard in questionAndAnswers)
             {
-                Console.WriteLine($"Try again... {Environment.NewLine}");
+                GameUI.WelcomeToQuizGame(gameCard.Question);
 
-                string answer = Console.ReadLine();
+                answeredQuestionCount++;
 
-                foreach (var item in questionAndAnswers.Answers)
+                GameCore.QuestionAnsweredWrong.Add(gameCard.Question, GameCore.QuizCardPlay(gameCard));
+
+                if (answeredQuestionCount < questionAndAnswers.Count)
                 {
-                    if (item.QuizAnswer.Equals(answer) && item.IsCorrectanswer.Equals(true))
-                    {
-                        Console.WriteLine($"You have entered the correct answer: [ {item.QuizAnswer} ]");
-                    }
-                    else
-                    {
-                        Console.WriteLine($"[ {item.QuizAnswer} ] is a wrrong answer");
-                    }
+                    GameUI.NextQuizQuestion();
                 }
-
             }
+
+            GameUI.FinalGameResult(GameCore.QuestionAnsweredWrong);
         }
     }
 }
