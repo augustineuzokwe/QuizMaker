@@ -59,7 +59,8 @@ namespace QuizMaker
                 Console.WriteLine($"Enter your questions:...");
 
                 string question = Console.ReadLine();
-                for (int a = 0; a < 3; a++)
+
+                for (int a = 0; a < gameCardsInPlay; a++)
                 {
                     Console.WriteLine($"Enter the answers to the questions: ");
 
