@@ -42,5 +42,23 @@ namespace QuizMaker
                 Console.WriteLine($"You have [ {item.Value} ] wrong answer(s) to the queston  \" {item.Key} \" ");
             }
         }
+
+        public static string getPlayerQuestion()
+        {
+            Console.WriteLine($"Enter your questions:...");
+            return Console.ReadLine();
+        }
+
+        public static bool IsCorrectAnswerToQuestion()
+        {
+            Console.WriteLine($"Is this the correct answer?");
+            return Console.ReadLine().ToLower().Equals("yes");
+        }
+
+        public static string getPlayerAnswerToQuestion()
+        {
+            Console.WriteLine($"Enter the answers to the questions: ");
+            return Console.ReadLine(); ;
+        }
     }
 }

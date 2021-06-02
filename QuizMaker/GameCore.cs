@@ -7,10 +7,8 @@ namespace QuizMaker
     {
         public static Dictionary<string, int> _questionAnsweredWrong = new Dictionary<string, int>();
         public static bool IsAllQuestionsAnswered { get; set; }
-        private static DataSerializer<List<Quiz>> dataSerializer = new DataSerializer<List<Quiz>>();
         private static int gameCardsInPlay = 3;
-        private static List<Quiz> quizCards = new List<Quiz>();
-        private static List<Answer> answers = new List<Answer>();
+        private static readonly List<Answer> answers = new List<Answer>();
 
 
         public static Dictionary<string, int> QuestionAnsweredWrong
@@ -28,7 +26,6 @@ namespace QuizMaker
                 else
                     continue;
             }
-
             return false;
         }
 
@@ -56,28 +53,21 @@ namespace QuizMaker
 
         public static Quiz CreateGameCards()
         {
-                Console.WriteLine($"Enter your questions:...");
+            string question = GameUI.getPlayerQuestion();
 
-                string question = Console.ReadLine();
+            for (int a = 0; a < gameCardsInPlay; a++)
+            {
+                string answer = GameUI.getPlayerAnswerToQuestion();
 
-                for (int a = 0; a < gameCardsInPlay; a++)
+                if (GameUI.IsCorrectAnswerToQuestion())
                 {
-                    Console.WriteLine($"Enter the answers to the questions: ");
-
-                    string answer = Console.ReadLine();
-
-                    Console.WriteLine($"Is this the correct answer?");
-
-                    if (Console.ReadLine().ToLower().Equals("yes"))
-                    {
-                        answers.Add(new Answer(answer, true));
-                    }
-                    else
-                    {
-                        answers.Add(new Answer(answer, false));
-                    }
+                    answers.Add(new Answer(answer, true));
                 }
-
+                else
+                {
+                    answers.Add(new Answer(answer, false));
+                }
+            }
             return new Quiz(question, answers: answers);
         }
     }
