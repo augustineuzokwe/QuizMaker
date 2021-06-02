@@ -4,14 +4,14 @@ using System.Collections.Generic;
 namespace QuizMaker
 {
     [Serializable]
-    public class Quiz
+    public class QuizDataModel
     {
         private string _question;
         private List<Answer> _answers;
 
-        public Quiz() { }
+        public QuizDataModel() { }
 
-        public Quiz(string question, List<Answer> answers)
+        public QuizDataModel(string question, List<Answer> answers)
         {
             _question = question;
             _answers = answers;

@@ -1,8 +1,7 @@
 ﻿namespace QuizMaker
 {
-    public class GameResult
+    public class QuizResult
     {
-
         public static bool GameOver { get; set; }
 
         public enum Result

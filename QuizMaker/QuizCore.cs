@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace QuizMaker
 {
-    public class GameCore
+    public class QuizCore
     {
         public static Dictionary<string, int> _questionAnsweredWrong = new Dictionary<string, int>();
         public static bool IsAllQuestionsAnswered { get; set; }
@@ -17,7 +17,7 @@ namespace QuizMaker
             set { _questionAnsweredWrong = value; }
         }
 
-        public static bool IsCorrectAnswerGiven(Quiz gameCard, string playerAnswer)
+        public static bool IsCorrectAnswerGiven(QuizDataModel gameCard, string playerAnswer)
         {
             foreach (var item in gameCard.Answers)
             {
@@ -29,7 +29,7 @@ namespace QuizMaker
             return false;
         }
 
-        public static int QuizCardPlay(Quiz gameCard)
+        public static int QuizCardPlay(QuizDataModel gameCard)
         {
             int wrongAnswers = 0;
 
@@ -39,27 +39,27 @@ namespace QuizMaker
 
                 if (IsCorrectAnswerGiven(gameCard, answer))
                 {
-                    GameUI.GameRoundResult(GameResult.Result.correctAnswer, 0, answer);
+                    QuizUI.GameRoundResult(QuizResult.Result.correctAnswer, 0, answer);
                     break;
                 }
                 else
                 {
-                    GameUI.GameRoundResult(GameResult.Result.wrongAnswer, 0, answer);
+                    QuizUI.GameRoundResult(QuizResult.Result.wrongAnswer, 0, answer);
                     wrongAnswers++;
                 }
             }
             return wrongAnswers;
         }
 
-        public static Quiz CreateGameCards()
+        public static QuizDataModel CreateGameCards()
         {
-            string question = GameUI.getPlayerQuestion();
+            string question = QuizUI.getPlayerQuestion();
 
             for (int a = 0; a < gameCardsInPlay; a++)
             {
-                string answer = GameUI.getPlayerAnswerToQuestion();
+                string answer = QuizUI.getPlayerAnswerToQuestion();
 
-                if (GameUI.IsCorrectAnswerToQuestion())
+                if (QuizUI.IsCorrectAnswerToQuestion())
                 {
                     answers.Add(new Answer(answer, true));
                 }
@@ -68,7 +68,7 @@ namespace QuizMaker
                     answers.Add(new Answer(answer, false));
                 }
             }
-            return new Quiz(question, answers: answers);
+            return new QuizDataModel(question, answers: answers);
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace QuizMaker
 {
-    public class GameUI
+    public class QuizUI
     {
         public static void WelcomeToQuizGame(string question)
         {
@@ -15,20 +15,20 @@ namespace QuizMaker
             Console.WriteLine($"\n\n==== Moving to next question ====== \n\n ");
         }
 
-        public static void GameRoundResult(GameResult.Result result, int errorCount = 0, string playerInput = "")
+        public static void GameRoundResult(QuizResult.Result result, int errorCount = 0, string playerInput = "")
         {
             switch (result)
             {
-                case GameResult.Result.win:
+                case QuizResult.Result.win:
                     Console.WriteLine($"  YOU'VE WON THE GAME with Error Count: {errorCount}");
                     break;
-                case GameResult.Result.lost:
+                case QuizResult.Result.lost:
                     Console.WriteLine($"YOU LOST THE GAME with Error Count: { errorCount }");
                     break;
-                case GameResult.Result.correctAnswer:
+                case QuizResult.Result.correctAnswer:
                     Console.WriteLine($"Your answer [ { playerInput } ] is correct. ");
                     break;
-                case GameResult.Result.wrongAnswer:
+                case QuizResult.Result.wrongAnswer:
                     Console.WriteLine($"Your answer [ { playerInput } ] is wrong, try again.. ");
                     break;
             }

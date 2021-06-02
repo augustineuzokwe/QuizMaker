@@ -35,19 +35,16 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Quiz.cs" />
+    <Compile Include="QuizDataModel.cs" />
     <Compile Include="DataSerializer.cs" />
-    <Compile Include="GameCore.cs" />
-    <Compile Include="GameResult.cs" />
-    <Compile Include="GameUI.cs" />
+    <Compile Include="QuizCore.cs" />
+    <Compile Include="QuizResult.cs" />
+    <Compile Include="QuizUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\..\..\QuizQuestions.txt">
-      <Link>Resources\QuizQuestions.txt</Link>
-    </None>
     <None Include="bin\Debug\quiz.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
