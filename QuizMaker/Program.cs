@@ -5,20 +5,19 @@ namespace QuizMaker
 {
     class MainClass
     {
-        public static int gameTrialCount { get; private set; }
-
-        public static void Main(string[] args)
+        public static void Main()
         {
             string filePath = "quiz.xml";
-            int gameCardsInPlay = 2;
+            int quizCardsToPlay = 2;
+            int answersForEachQuestion = 3;
             DataSerializer<List<QuizDataModel>> dataSerializer = new DataSerializer<List<QuizDataModel>>();
             List<QuizDataModel> quizCards = new List<QuizDataModel>();
             int answeredQuestionCount = 0;
 
-            // create 3 game cards
-            for (int x = 0; x < gameCardsInPlay; x++)
+            //Create quiz cards
+            for (int x = 0; x < quizCardsToPlay; x++)
             {
-                quizCards.Add(QuizCore.CreateGameCards());
+                quizCards.Add(QuizCore.CreateGameCards(answersForEachQuestion));
             }
 
             //Store in serialized xml file
@@ -26,17 +25,18 @@ namespace QuizMaker
 
             Console.Clear();
 
-            // load game cards
+            // Load quiz cards
             List<QuizDataModel> questionAndAnswers = dataSerializer.XmlDeserialize(filePath);
 
-            //Play game
+            //Play quiz
             foreach (var gameCard in questionAndAnswers)
             {
                 QuizUI.WelcomeToQuizGame(gameCard.Question);
 
                 answeredQuestionCount++;
 
-                QuizCore.QuestionAnsweredWrong.Add(gameCard.Question, QuizCore.QuizCardPlay(gameCard));
+                //Play quiz
+                QuizCore.QuizCardPlay(gameCard);
 
                 if (answeredQuestionCount < questionAndAnswers.Count)
                 {
@@ -44,7 +44,8 @@ namespace QuizMaker
                 }
             }
 
-            QuizUI.FinalGameResult(QuizCore.QuestionAnsweredWrong);
+            //Display quiz results
+            QuizUI.FinalGameResult(QuizCore.QuestionWrongAnswersDictionary);
         }
     }
 }

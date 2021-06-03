@@ -7,11 +7,9 @@ namespace QuizMaker
     {
         public static Dictionary<string, int> _questionAnsweredWrong = new Dictionary<string, int>();
         public static bool IsAllQuestionsAnswered { get; set; }
-        private static int gameCardsInPlay = 3;
         private static readonly List<Answer> answers = new List<Answer>();
 
-
-        public static Dictionary<string, int> QuestionAnsweredWrong
+        public static Dictionary<string, int> QuestionWrongAnswersDictionary
         {
             get { return _questionAnsweredWrong; }
             set { _questionAnsweredWrong = value; }
@@ -29,9 +27,9 @@ namespace QuizMaker
             return false;
         }
 
-        public static int QuizCardPlay(QuizDataModel gameCard)
+        public static void QuizCardPlay(QuizDataModel gameCard)
         {
-            int wrongAnswers = 0;
+            int wrongAnswersCount = 0;
 
             for (int x = 0; x < gameCard.Answers.Count; x++)
             {
@@ -45,17 +43,19 @@ namespace QuizMaker
                 else
                 {
                     QuizUI.GameRoundResult(QuizResult.Result.wrongAnswer, 0, answer);
-                    wrongAnswers++;
+                    wrongAnswersCount++;
                 }
             }
-            return wrongAnswers;
+
+            // keep track of wrong answers
+            QuestionWrongAnswersDictionary.Add(gameCard.Question, wrongAnswersCount);
         }
 
-        public static QuizDataModel CreateGameCards()
+        public static QuizDataModel CreateGameCards(int answersForEachQuestion)
         {
             string question = QuizUI.getPlayerQuestion();
 
-            for (int a = 0; a < gameCardsInPlay; a++)
+            for (int a = 0; a < answersForEachQuestion; a++)
             {
                 string answer = QuizUI.getPlayerAnswerToQuestion();
 
