@@ -5,9 +5,18 @@ namespace QuizMaker
 {
     public class QuizUI
     {
-        public static void WelcomeToQuizGame(string question)
+        public static string EnterAnswerToQuizGame(QuizDataModel gameCard)
         {
-            Console.WriteLine($"Enter the correct answer to the questions \n\n {question}");
+            Console.WriteLine($"Enter the correct answer to the questions \n\n {gameCard.Question}");
+
+            string answer = Console.ReadLine();
+
+            return answer;
+        }
+
+        public static string TryAgain()
+        {
+            return Console.ReadLine();
         }
 
         public static void NextQuizQuestion()
