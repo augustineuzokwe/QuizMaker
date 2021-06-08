@@ -12,34 +12,33 @@ namespace QuizMaker
             int answersForEachQuestion = 3;
             DataSerializer<List<QuizDataModel>> dataSerializer = new DataSerializer<List<QuizDataModel>>();
             List<QuizDataModel> quizCards = new List<QuizDataModel>();
-            List<Answer> answers;
 
             int answeredQuestionCount = 0;
 
-            ////Create quiz cards
-            //for (int x = 0; x < quizCardsToPlay; x++)
-            //{
-            //    string question = QuizUI.getPlayerQuestion();
-            //    answers = new List<Answer>();
+            //Create quiz cards
+            for (int x = 0; x < quizCardsToPlay; x++)
+            {
+                string question = QuizUI.getPlayerQuestion();
+                List<Answer> answers = new List<Answer>();
 
-            //    for (int a = 0; a < answersForEachQuestion; a++)
-            //    {
-            //        string answer = QuizUI.getPlayerAnswerToQuestion();
+                for (int a = 0; a < answersForEachQuestion; a++)
+                {
+                    string answer = QuizUI.getPlayerAnswerToQuestion();
 
-            //        if (QuizUI.IsCorrectAnswerToQuestion())
-            //        {
-            //            answers.Add(new Answer(answer, true));
-            //        }
-            //        else
-            //        {
-            //            answers.Add(new Answer(answer, false));
-            //        }
-            //    }
-            //    quizCards.Add(new QuizDataModel(question, answers));
-            //}
+                    if (QuizUI.IsCorrectAnswerToQuestion())
+                    {
+                        answers.Add(new Answer(answer, true));
+                    }
+                    else
+                    {
+                        answers.Add(new Answer(answer, false));
+                    }
+                }
+                quizCards.Add(new QuizDataModel(question, answers));
+            }
 
-            ////Store the quiz cards in serialized xml file
-            //dataSerializer.XmlSerialize(quizCards, filePath);
+            //Store the quiz cards in serialized xml file
+            dataSerializer.XmlSerialize(quizCards, filePath);
 
             Console.Clear();
 
