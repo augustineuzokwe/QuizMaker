@@ -8,6 +8,7 @@ namespace QuizMaker
     {
         private string _question;
         private List<Answer> _answers;
+        public static Dictionary<string, int> _questionAnsweredWrong = new Dictionary<string, int>();
 
         public QuizDataModel() { }
 
@@ -27,6 +28,12 @@ namespace QuizMaker
         {
             get { return _answers; }
             set { _answers = value; }
+        }
+
+        public static Dictionary<string, int> QuestionWrongAnswersDictionary
+        {
+            get { return _questionAnsweredWrong; }
+            set { _questionAnsweredWrong = value; }
         }
     }
 
@@ -56,4 +63,5 @@ namespace QuizMaker
             set { _isCorrectanswer = value; }
         }
     }
+
 }
